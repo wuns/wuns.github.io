@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dr. Marcus Wunsch — Quantitative Investment & Mathematical Finance</title>
+<meta name="description" content="Dr. Marcus Wunsch — Senior Lecturer at ZHAW, quantitative investment professional, and researcher in portfolio optimization, mathematical finance, and decentralized finance." />
+<meta name="author" content="Marcus Wunsch" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Dr. Marcus Wunsch" />
+<meta property="og:description" content="Quantitative investment professional & Senior Lecturer. Research in portfolio optimization, risk management, and decentralized finance." />
+<meta property="og:type" content="profile" />
+<meta property="og:image" content="marcus.jpg" />
+
+<!-- Fonts: Fraunces (display serif, variable) + Plus Jakarta Sans (body) + JetBrains Mono (technical) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink:        #0B1426;
+    --ink-soft:   #1E2A44;
+    --paper:      #F5F1E8;
+    --paper-warm: #EFEAD9;
+    --gold:       #B8893E;
+    --gold-soft:  #D4A95C;
+    --burgundy:   #6B2E2E;
+    --slate:      #4A5568;
+    --slate-soft: #6B7280;
+    --line:       rgba(11, 20, 38, 0.12);
+    --line-strong:rgba(11, 20, 38, 0.25);
+
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+    --max-w: 1240px;
+    --pad-x: clamp(20px, 5vw, 80px);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    font-weight: 400;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Subtle grain overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.04 0 0 0 0 0.08 0 0 0 0 0.15 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  a { color: inherit; text-decoration: none; transition: opacity .2s, color .2s; }
+  a:hover { opacity: 0.7; }
+
+  ::selection { background: var(--gold); color: var(--paper); }
+
+  /* ============ NAVIGATION ============ */
+  nav.top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 22px var(--pad-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    background: rgba(245, 241, 232, 0.78);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s;
+  }
+  nav.top.scrolled { border-bottom-color: var(--line); }
+
+  .monogram {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .monogram .dot { color: var(--gold); font-style: normal; }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .nav-links a { position: relative; }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width .3s ease;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a:hover::after { width: 100%; }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    padding: 140px var(--pad-x) 80px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: var(--max-w);
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 100px; right: var(--pad-x);
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184, 137, 62, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+    filter: blur(20px);
+    z-index: 0;
+  }
+
+  .hero-text { position: relative; z-index: 2; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.1s;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  h1.name {
+    font-family: var(--font-display);
+    font-size: clamp(54px, 8vw, 110px);
+    font-weight: 350;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    opacity: 0;
+    animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.2s;
+  }
+  h1.name .first {
+    display: block;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink-soft);
+  }
+  h1.name .last {
+    display: block;
+    margin-top: -10px;
+  }
+
+  .role {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--slate);
+    margin-bottom: 36px;
+    line-height: 1.3;
+    max-width: 540px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 0.4s;
+  }
+
+  .hero-summary {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--slate);
+    max-width: 520px;
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 0.55s;
+  }
+  .hero-summary strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 0.7s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    transition: all .25s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn-primary:hover {
+    background: var(--gold);
+    color: var(--ink);
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  .btn-outline {
+    border-color: var(--line-strong);
+    color: var(--ink);
+  }
+  .btn-outline:hover {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  .btn .arrow { font-size: 14px; transition: transform .25s; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* Hero portrait */
+  .hero-portrait {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1.4s ease forwards;
+    animation-delay: 0.3s;
+  }
+  .portrait-frame {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: var(--ink);
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow:
+      0 30px 60px -20px rgba(11, 20, 38, 0.25),
+      0 20px 30px -15px rgba(11, 20, 38, 0.18);
+  }
+  .portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: contrast(1.02) saturate(0.95);
+    transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .hero-portrait:hover .portrait-frame img { transform: scale(1.04); }
+
+  .portrait-tag {
+    position: absolute;
+    bottom: -16px;
+    left: -16px;
+    background: var(--paper);
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .portrait-tag::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .portrait-coord {
+    position: absolute;
+    top: -16px; right: -16px;
+    background: var(--ink);
+    color: var(--paper-warm);
+    padding: 8px 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding-top: 110px;
+    }
+    .hero-portrait { max-width: 380px; }
+  }
+
+  /* ============ SECTION SCAFFOLD ============ */
+  section.block {
+    padding: 100px var(--pad-x);
+    max-width: var(--max-w);
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 64px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .section-label .num {
+    color: var(--slate-soft);
+    margin-right: 10px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 350;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 720px;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  /* ============ ABOUT ============ */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-meta {
+    position: sticky;
+    top: 100px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .meta-row {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .meta-row .key { color: var(--slate-soft); text-transform: uppercase; }
+  .meta-row .val { color: var(--ink); text-align: right; }
+
+  .about-prose {
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .about-prose p { margin-bottom: 24px; }
+  .about-prose p:first-child::first-letter {
+    font-family: var(--font-display);
+    font-size: 5.2em;
+    float: left;
+    line-height: 0.85;
+    margin: 8px 12px 0 -2px;
+    color: var(--gold);
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+  }
+  .about-prose strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-meta { position: static; }
+  }
+
+  /* ============ RESEARCH FOCUS ============ */
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .focus-card {
+    padding: 36px 32px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transition: background .3s;
+    position: relative;
+    background: transparent;
+  }
+  .focus-card:hover {
+    background: var(--paper-warm);
+  }
+  .focus-card .icon {
+    font-family: var(--font-display);
+    font-size: 38px;
+    color: var(--gold);
+    font-style: italic;
+    margin-bottom: 18px;
+    line-height: 1;
+  }
+  .focus-card h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 450;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .focus-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--slate);
+  }
+
+  /* ============ PUBLICATIONS ============ */
+  .pub-list { list-style: none; }
+  .pub-item {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 32px;
+    align-items: start;
+    transition: padding-left .3s;
+  }
+  .pub-item:hover { padding-left: 12px; }
+  .pub-item:hover .pub-year { color: var(--gold); }
+
+  .pub-year {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    transition: color .3s;
+    padding-top: 4px;
+  }
+
+  .pub-body { max-width: 700px; }
+  .pub-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 450;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+  .pub-authors {
+    font-size: 14px;
+    color: var(--slate);
+    margin-bottom: 8px;
+  }
+  .pub-authors .self { color: var(--ink); font-weight: 600; }
+  .pub-venue {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--burgundy);
+  }
+
+  .pub-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate-soft);
+    padding-top: 6px;
+  }
+
+  .scholar-cta {
+    margin-top: 48px;
+    padding: 32px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .scholar-cta h4 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .scholar-cta p {
+    color: rgba(245, 241, 232, 0.7);
+    font-size: 14px;
+  }
+  .scholar-cta .btn {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold);
+  }
+  .scholar-cta .btn:hover {
+    background: var(--paper);
+    border-color: var(--paper);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 700px) {
+    .pub-item { grid-template-columns: 70px 1fr; }
+    .pub-link { grid-column: 2; }
+  }
+
+  /* ============ TALKS ============ */
+  .talk-list { list-style: none; }
+  .talk-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 110px 1fr 200px;
+    gap: 32px;
+    align-items: start;
+    transition: padding-left .3s;
+  }
+  .talk-item:hover { padding-left: 12px; }
+  .talk-item:hover .talk-date { color: var(--gold); }
+
+  .talk-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate);
+    padding-top: 6px;
+    transition: color .3s;
+    line-height: 1.4;
+  }
+  .talk-date .yr { color: var(--ink); font-size: 14px; display: block; margin-bottom: 2px; font-weight: 500; }
+
+  .talk-body { max-width: 640px; }
+  .talk-title {
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 450;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .talk-venue {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--burgundy);
+  }
+  .talk-type {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate-soft);
+    margin-top: 8px;
+    padding: 3px 9px;
+    border: 1px solid var(--line-strong);
+    border-radius: 100px;
+  }
+
+  .talk-loc {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--slate);
+    letter-spacing: 0.04em;
+    padding-top: 6px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .talk-loc::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 760px) {
+    .talk-item { grid-template-columns: 80px 1fr; gap: 18px; }
+    .talk-loc { grid-column: 1 / -1; padding-left: 0; }
+  }
+
+  /* ============ PROJECTS ============ */
+  .proj-list {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .proj-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+    transition: padding-left .3s;
+  }
+  .proj-item:hover { padding-left: 12px; }
+  .proj-item h4 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 450;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .proj-item .proj-role {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .proj-item .proj-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  /* ============ EXPERIENCE TIMELINE ============ */
+  .timeline {
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: var(--line-strong);
+  }
+  .tl-item {
+    padding-left: 48px;
+    padding-bottom: 56px;
+    position: relative;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 17px; height: 17px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    z-index: 2;
+  }
+  .tl-item.current::before {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 6px rgba(184, 137, 62, 0.2);
+  }
+  .tl-date {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .tl-role {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 450;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .tl-org {
+    font-size: 14px;
+    color: var(--slate);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .tl-org .place { color: var(--slate-soft); font-weight: 400; }
+  .tl-desc {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--slate);
+    max-width: 720px;
+  }
+  .tl-tags {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 100px;
+    color: var(--slate);
+  }
+
+  /* ============ TEACHING ============ */
+  .teaching-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .teach-card {
+    padding: 36px;
+    background: var(--paper-warm);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .3s ease;
+  }
+  .teach-card:hover { transform: translateY(-4px); }
+  .teach-card.dark {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .teach-card.dark .teach-eyebrow { color: var(--gold-soft); }
+  .teach-card.dark .teach-meta { color: rgba(245, 241, 232, 0.6); }
+
+  .teach-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .teach-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+  .teach-card p {
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+  .teach-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate-soft);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 760px) {
+    .teaching-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ============ EDUCATION ============ */
+  .edu-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .edu-card {
+    padding: 28px 28px 32px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    transition: border-color .3s;
+    position: relative;
+  }
+  .edu-card:hover { border-color: var(--gold); }
+  .edu-card.honor {
+    background: linear-gradient(180deg, rgba(184, 137, 62, 0.06), transparent 60%);
+    border-color: rgba(184, 137, 62, 0.3);
+  }
+  .edu-card.honor::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 4px 4px 0 0;
+  }
+  .edu-year {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .edu-degree {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 450;
+    line-height: 1.25;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .edu-inst {
+    font-size: 13px;
+    color: var(--slate);
+  }
+
+  /* ============ CONTACT ============ */
+  .contact-block {
+    background: var(--ink);
+    color: var(--paper);
+    margin: 0;
+    padding: 120px var(--pad-x);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-block::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184, 137, 62, 0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .contact-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+    position: relative;
+    z-index: 2;
+  }
+  .contact-block .section-label { color: var(--gold-soft); }
+  .contact-block .section-title { color: var(--paper); }
+  .contact-block .section-title em { color: var(--gold-soft); }
+
+  .contact-lead {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 4.4vw, 54px);
+    font-weight: 350;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .contact-lead em { font-style: italic; color: var(--gold-soft); }
+
+  .contact-sub {
+    color: rgba(245, 241, 232, 0.7);
+    font-size: 16px;
+    line-height: 1.65;
+    max-width: 460px;
+    margin-bottom: 36px;
+  }
+
+  .contact-channels {
+    display: grid;
+    gap: 2px;
+    background: rgba(245, 241, 232, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .channel {
+    padding: 22px 26px;
+    background: var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background .25s;
+  }
+  .channel:hover { background: var(--ink-soft); opacity: 1; }
+  .channel .ch-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+  .channel .ch-val {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .channel .ch-arrow {
+    color: var(--gold-soft);
+    transition: transform .25s;
+  }
+  .channel:hover .ch-arrow { transform: translateX(4px); }
+
+  @media (max-width: 900px) {
+    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    padding: 36px var(--pad-x);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate-soft);
+    letter-spacing: 0.06em;
+    border-top: 1px solid var(--line);
+  }
+  footer .sep { margin: 0 12px; color: var(--gold); }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .9s ease, transform .9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top" id="topnav">
+  <div class="monogram">M<span class="dot">.</span>W</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#research">Research</a>
+    <a href="#publications">Publications</a>
+    <a href="#talks">Talks</a>
+    <a href="#experience">Experience</a>
+    <a href="#teaching">Teaching</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">Senior Lecturer · ZHAW · Zurich</div>
+    <h1 class="name">
+      <span class="first">Marcus</span>
+      <span class="last">Wunsch.</span>
+    </h1>
+    <p class="role">Quantitative investment professional &amp; researcher in <em style="color:var(--gold)">mathematical finance</em>, portfolio optimization, and decentralized markets.</p>
+    <p class="hero-summary">
+      I work at the intersection of <strong>academic research and quantitative investment practice</strong> — bridging rigorous mathematical methods with real-world portfolio construction, risk management, and the design of next-generation financial systems.
+    </p>
+    <div class="hero-cta">
+      <a href="#publications" class="btn btn-primary">Selected Work <span class="arrow">→</span></a>
+      <a href="#contact" class="btn btn-outline">Get in touch <span class="arrow">→</span></a>
+    </div>
+  </div>
+
+  <div class="hero-portrait">
+    <div class="portrait-coord">47.4979° N&nbsp;&nbsp;8.7378° E</div>
+    <div class="portrait-frame">
+      <img src="marcus.jpg" alt="Dr. Marcus Wunsch" />
+    </div>
+    <div class="portrait-tag">Available for collaboration</div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="block" id="about">
+  <div class="section-header">
+    <span class="section-label"><span class="num">01</span>About</span>
+  </div>
+
+  <div class="about-grid">
+    <aside class="about-meta">
+      <div class="meta-row"><span class="key">Based in</span><span class="val">Baden / Zurich</span></div>
+      <div class="meta-row"><span class="key">Affiliation</span><span class="val">ZHAW SML</span></div>
+      <div class="meta-row"><span class="key">Field</span><span class="val">Quant Finance</span></div>
+      <div class="meta-row"><span class="key">Doctorate</span><span class="val">Univ. of Vienna</span></div>
+      <div class="meta-row"><span class="key">Languages</span><span class="val">DE · EN · IT · JP</span></div>
+      <div class="meta-row"><span class="key">Open to</span><span class="val">Research &amp; Industry</span></div>
+    </aside>
+
+    <div class="about-prose">
+      <p>
+        I am a quantitative investment professional and Senior Lecturer with a track record spanning <strong>academic research, institutional asset management, and digital finance innovation</strong>. My work centers on systematic portfolio construction, quantitative risk management, and data-driven investment processes.
+      </p>
+      <p>
+        Before joining ZHAW, I served as <strong>Head of Risk Management and Portfolio Manager at Quantica Capital</strong>, and previously as a quantitative analyst in UBS's Chief Investment Office and Risk Methodology. The combination of buy-side, sell-side, and academic perspectives shapes how I approach research questions today — anchored in rigour, but tested against the reality of running money.
+      </p>
+      <p>
+        My current research at ZHAW's Institute for Wealth &amp; Asset Management explores <strong>goal-based investing, drawdown control, and the mechanics of decentralized exchanges</strong>. I serve as the academic director of the CAS Blockchain &amp; Decentralized Finance, and as principal investigator on Innosuisse-funded innovation projects in collaboration with Swiss financial institutions.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESEARCH FOCUS ============ -->
+<section class="block" id="research">
+  <div class="section-header">
+    <div>
+      <div class="section-label"><span class="num">02</span>Research Focus</div>
+      <h2 class="section-title">Where <em>theory</em> meets the trading book.</h2>
+    </div>
+  </div>
+
+  <div class="research-grid">
+    <div class="focus-card">
+      <div class="icon">∫</div>
+      <h3>Mathematical Finance</h3>
+      <p>Stochastic optimization, optimal hedging, and the structural design of derivative-replicating strategies.</p>
+    </div>
+    <div class="focus-card">
+      <div class="icon">σ</div>
+      <h3>Risk Management</h3>
+      <p>Drawdown control, stress testing, and portfolio risk aggregation across multi-asset class portfolios.</p>
+    </div>
+    <div class="focus-card">
+      <div class="icon">Σ</div>
+      <h3>Portfolio Optimization</h3>
+      <p>Goal-based investing, systematic allocation, and rules-based investment solutions for institutional capital.</p>
+    </div>
+    <div class="focus-card">
+      <div class="icon">ξ</div>
+      <h3>Decentralized Finance</h3>
+      <p>Automated market makers, impermanent loss hedging, and liquidity provision in on-chain markets.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section class="block" id="publications">
+  <div class="section-header">
+    <div>
+      <div class="section-label"><span class="num">03</span>Publications</div>
+      <h2 class="section-title">Selected <em>peer-reviewed</em> work.</h2>
+    </div>
+  </div>
+
+  <ul class="pub-list">
+    <li class="pub-item">
+      <div class="pub-year">2025</div>
+      <div class="pub-body">
+        <h3 class="pub-title">Liquidity provision of utility indifference type in decentralized exchanges</h3>
+        <p class="pub-authors">M. Fukasawa, B. Maire, <span class="self">M. Wunsch</span></p>
+        <p class="pub-venue">Digital Finance</p>
+      </div>
+      <a class="pub-link" href="https://doi.org/10.1007/s42521-025-00128-5" target="_blank" rel="noopener">↗ DOI</a>
+    </li>
+    <li class="pub-item">
+      <div class="pub-year">2025</div>
+      <div class="pub-body">
+        <h3 class="pub-title">Model-free hedging of impermanent loss in geometric mean market makers with proportional transaction fees</h3>
+        <p class="pub-authors">M. Fukasawa, B. Maire, <span class="self">M. Wunsch</span></p>
+        <p class="pub-venue">Applied Mathematical Finance, 31(2), 108–129</p>
+      </div>
+      <a class="pub-link" href="https://doi.org/10.1080/1350486X.2024.2404058" target="_blank" rel="noopener">↗ DOI</a>
+    </li>
+    <li class="pub-item">
+      <div class="pub-year">2024</div>
+      <div class="pub-body">
+        <h3 class="pub-title">Market neutral liquidity provision</h3>
+        <p class="pub-authors">B. Maire, <span class="self">M. Wunsch</span></p>
+        <p class="pub-venue">Ledger, 9, 73–88</p>
+      </div>
+      <a class="pub-link" href="https://doi.org/10.5195/ledger.2024.389" target="_blank" rel="noopener">↗ DOI</a>
+    </li>
+    <li class="pub-item">
+      <div class="pub-year">2023</div>
+      <div class="pub-body">
+        <h3 class="pub-title">Hedging goals</h3>
+        <p class="pub-authors">T. Krabichler, <span class="self">M. Wunsch</span></p>
+        <p class="pub-venue">Financial Markets and Portfolio Management, 38(1), 93–122</p>
+      </div>
+      <a class="pub-link" href="https://doi.org/10.1007/s11408-023-00437-y" target="_blank" rel="noopener">↗ DOI</a>
+    </li>
+    <li class="pub-item">
+      <div class="pub-year">2023</div>
+      <div class="pub-body">
+        <h3 class="pub-title">Weighted variance swaps hedge against impermanent loss</h3>
+        <p class="pub-authors">M. Fukasawa, B. Maire, <span class="self">M. Wunsch</span></p>
+        <p class="pub-venue">Quantitative Finance, 23(6), 901–911</p>
+      </div>
+      <a class="pub-link" href="https://doi.org/10.1080/14697688.2023.2202708" target="_blank" rel="noopener">↗ DOI</a>
+    </li>
+    <li class="pub-item">
+      <div class="pub-year">2022</div>
+      <div class="pub-body">
+        <h3 class="pub-title">Deep partial hedging</h3>
+        <p class="pub-authors">S. Hou, T. Krabichler, <span class="self">M. Wunsch</span></p>
+        <p class="pub-venue">Journal of Risk and Financial Management, 15(5), 223</p>
+      </div>
+      <a class="pub-link" href="https://doi.org/10.3390/jrfm15050223" target="_blank" rel="noopener">↗ DOI</a>
+    </li>
+    <li class="pub-item">
+      <div class="pub-year">2022</div>
+      <div class="pub-body">
+        <h3 class="pub-title">Tackling the exponential scaling of signature-based generative adversarial networks for high-dimensional financial time-series generation</h3>
+        <p class="pub-authors">F. De Meer Pardo, P. Schwendner, <span class="self">M. Wunsch</span></p>
+        <p class="pub-venue">The Journal of Financial Data Science, 4(4), 110–132</p>
+      </div>
+      <a class="pub-link" href="https://doi.org/10.3905/jfds.2022.1.109" target="_blank" rel="noopener">↗ DOI</a>
+    </li>
+  </ul>
+
+  <div class="scholar-cta">
+    <div>
+      <h4>Full publication list on Google Scholar</h4>
+      <p>Including earlier work in partial differential equations, stochastic analysis, and applied mathematics — 700+ citations.</p>
+    </div>
+    <a href="https://scholar.google.ch/citations?hl=de&user=9jUGIkIAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="btn">Open Profile <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<!-- ============ TALKS ============ -->
+<section class="block" id="talks">
+  <div class="section-header">
+    <div>
+      <div class="section-label"><span class="num">04</span>Talks &amp; Conferences</div>
+      <h2 class="section-title">Selected <em>invited talks</em> &amp; conference contributions.</h2>
+    </div>
+  </div>
+
+  <ul class="talk-list">
+    <li class="talk-item">
+      <div class="talk-date"><span class="yr">2026</span>March</div>
+      <div class="talk-body">
+        <h3 class="talk-title">All you ever wanted to know about AMMs</h3>
+        <p class="talk-venue">Workshop on Mathematical Finance and Related Issues</p>
+        <span class="talk-type">Invited talk</span>
+      </div>
+      <div class="talk-loc">Osaka, Japan</div>
+    </li>
+    <li class="talk-item">
+      <div class="talk-date"><span class="yr">2025</span>Nov</div>
+      <div class="talk-body">
+        <h3 class="talk-title">Market neutral strategies in decentralized finance</h3>
+        <p class="talk-venue">QuantMinds International</p>
+        <span class="talk-type">Industry conference</span>
+      </div>
+      <div class="talk-loc">London, United Kingdom</div>
+    </li>
+    <li class="talk-item">
+      <div class="talk-date"><span class="yr">2025</span>June</div>
+      <div class="talk-body">
+        <h3 class="talk-title">Staying afloat: optimizing utility and time under water</h3>
+        <p class="talk-venue">12th General AMaMeF Conference</p>
+        <span class="talk-type">Peer-reviewed</span>
+      </div>
+      <div class="talk-loc">Verona, Italy</div>
+    </li>
+    <li class="talk-item">
+      <div class="talk-date"><span class="yr">2025</span>Feb</div>
+      <div class="talk-body">
+        <h3 class="talk-title">Leveraging constant function market makers for decentralized portfolio management</h3>
+        <p class="talk-venue">Mathematical Finance Seminar — Spring 2025</p>
+        <span class="talk-type">Columbia University · invited</span>
+      </div>
+      <div class="talk-loc">New York, USA · online</div>
+    </li>
+    <li class="talk-item">
+      <div class="talk-date"><span class="yr">2021</span>Nov</div>
+      <div class="talk-body">
+        <h3 class="talk-title">Digital Assets — von Zahlungsmitteln zu dezentralen Finanzsystemen</h3>
+        <p class="talk-venue">Finance Circle</p>
+        <span class="talk-type">Industry talk</span>
+      </div>
+      <div class="talk-loc">Winterthur, Switzerland</div>
+    </li>
+  </ul>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section class="block" id="experience">
+  <div class="section-header">
+    <div>
+      <div class="section-label"><span class="num">05</span>Experience</div>
+      <h2 class="section-title">From the <em>academy</em> to the trading floor &amp; back.</h2>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item current">
+      <div class="tl-date">2020 — Present</div>
+      <h3 class="tl-role">Senior Lecturer</h3>
+      <p class="tl-org">ZHAW School of Management and Law <span class="place">· Winterthur, Switzerland</span></p>
+      <p class="tl-desc">Institute for Wealth &amp; Asset Management. Research on portfolio optimization, goal-based investing, and digital assets. Academic director of the CAS Blockchain &amp; Decentralized Finance. Principal investigator on Innosuisse-funded innovation projects, in close exchange with financial institutions and practitioners.</p>
+      <div class="tl-tags">
+        <span class="tag">Research</span>
+        <span class="tag">Teaching</span>
+        <span class="tag">Innosuisse PI</span>
+        <span class="tag">CAS Director</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2018 — 2020</div>
+      <h3 class="tl-role">Head of Risk Management, Portfolio Manager, Senior Researcher</h3>
+      <p class="tl-org">Quantica Capital AG <span class="place">· Zurich</span></p>
+      <p class="tl-desc">Built a stress-testing and scenario analysis framework for multi-asset portfolios. Led hedge-fund replication of managed futures and trend-following strategies. Owned client-facing communication on investment strategy, portfolio risk, and performance attribution. Automated risk reporting, portfolio analytics, and exposure monitoring.</p>
+      <div class="tl-tags">
+        <span class="tag">Managed Futures</span>
+        <span class="tag">Trend Following</span>
+        <span class="tag">Risk Framework</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2017 — 2018</div>
+      <h3 class="tl-role">Investment Analyst — CIO UHNW</h3>
+      <p class="tl-org">UBS AG, Wealth Management <span class="place">· Zurich</span></p>
+      <p class="tl-desc">Analysis of systematic trading strategies across global asset classes. Research on fund flows, positioning indicators, and market impact for the Chief Investment Office serving ultra-high-net-worth clients.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2013 — 2017</div>
+      <h3 class="tl-role">Risk Specialist — Risk Methodology</h3>
+      <p class="tl-org">UBS AG <span class="place">· Zurich</span></p>
+      <p class="tl-desc">Development of credit portfolio and capital models for regulatory and economic capital. Quantitative modeling of portfolio risk aggregation and dependence structures.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2011 — 2013</div>
+      <h3 class="tl-role">Senior Postdoctoral Fellow</h3>
+      <p class="tl-org">ETH Zurich <span class="place">· Switzerland</span></p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2009 — 2011</div>
+      <h3 class="tl-role">JSPS Postdoctoral Fellow</h3>
+      <p class="tl-org">Kyoto University <span class="place">· Japan</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEACHING & PROJECTS ============ -->
+<section class="block" id="teaching">
+  <div class="section-header">
+    <div>
+      <div class="section-label"><span class="num">06</span>Teaching &amp; Innovation</div>
+      <h2 class="section-title">Building <em>bridges</em> between research, classroom, and industry.</h2>
+    </div>
+  </div>
+
+  <div class="teaching-grid">
+    <div class="teach-card dark">
+      <div class="teach-eyebrow">Academic Director</div>
+      <h3 class="teach-title">CAS Blockchain &amp; Decentralized Finance</h3>
+      <p>Initiated and lead the Certificate of Advanced Studies program at ZHAW SML — connecting practitioners, researchers, and policymakers around the mechanics, opportunities, and risks of decentralized financial systems.</p>
+      <p class="teach-meta">ZHAW School of Management and Law</p>
+    </div>
+
+    <div class="teach-card">
+      <div class="teach-eyebrow">Module Coordinator · BSc</div>
+      <h3 class="teach-title">Active Investment Management</h3>
+      <p>Lead module on systematic and discretionary active management, portfolio construction, and performance attribution in the Bachelor's program at ZHAW SML.</p>
+      <p class="teach-meta">BSc Business Administration</p>
+    </div>
+
+    <div class="teach-card">
+      <div class="teach-eyebrow">Lecturer · BSc</div>
+      <h3 class="teach-title">Financial Instruments &amp; Portfolio Theory</h3>
+      <p>Foundational module on the mathematical and economic principles of portfolio construction, derivative instruments, and modern portfolio theory.</p>
+      <p class="teach-meta">BSc Business Administration</p>
+    </div>
+
+    <div class="teach-card">
+      <div class="teach-eyebrow">Lecturer · MSc</div>
+      <h3 class="teach-title">Investments</h3>
+      <p>Advanced module on quantitative investment, asset allocation, and rules-based portfolio strategies in the Master's program in Banking and Finance.</p>
+      <p class="teach-meta">MSc Banking and Finance</p>
+    </div>
+  </div>
+
+  <!-- Projects subsection -->
+  <h3 style="font-family: var(--font-display); font-size: 28px; font-weight: 400; margin: 80px 0 24px; letter-spacing: -0.01em;">
+    Research &amp; Innovation Projects
+  </h3>
+  <p style="color: var(--slate); max-width: 640px; margin-bottom: 32px; font-size: 16px;">
+    Applied research projects bridging academic rigor with industry practice, supported by the Swiss Innovation Agency and Swiss financial institutions.
+  </p>
+
+  <div class="proj-list">
+    <a class="proj-item" href="https://www.zhaw.ch/en/research/project/80333" target="_blank" rel="noopener">
+      <div>
+        <div class="proj-role">Project Leader · Completed</div>
+        <h4>Blockchain-Based Verified Career Records for Enhanced Professional Credibility</h4>
+      </div>
+      <span class="proj-link">↗ ZHAW</span>
+    </a>
+    <a class="proj-item" href="https://www.zhaw.ch/en/research/project/73880" target="_blank" rel="noopener">
+      <div>
+        <div class="proj-role">Project Leader · Completed</div>
+        <h4>Enabling risk management with decentralized exchange-traded derivatives</h4>
+      </div>
+      <span class="proj-link">↗ ZHAW</span>
+    </a>
+    <a class="proj-item" href="https://www.zhaw.ch/en/research/project/72530" target="_blank" rel="noopener">
+      <div>
+        <div class="proj-role">Team Member · Completed</div>
+        <h4>Fintech &amp; AI in Finance — Towards a transparent financial industry</h4>
+      </div>
+      <span class="proj-link">↗ ZHAW</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section class="block" id="education">
+  <div class="section-header">
+    <div>
+      <div class="section-label"><span class="num">07</span>Education</div>
+      <h2 class="section-title">Trained in <em>three</em> mathematical traditions.</h2>
+    </div>
+  </div>
+
+  <div class="edu-list">
+    <div class="edu-card">
+      <div class="edu-year">2009</div>
+      <h3 class="edu-degree">PhD, Applied Mathematics</h3>
+      <p class="edu-inst">University of Vienna, Austria</p>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2006 — 2008</div>
+      <h3 class="edu-degree">Japanese Government Scholar</h3>
+      <p class="edu-inst">Kyoto University, Japan</p>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2005</div>
+      <h3 class="edu-degree">MSc, Mathematics</h3>
+      <p class="edu-inst">University of Vienna, Austria</p>
+    </div>
+    <div class="edu-card honor">
+      <div class="edu-year">2009 · Honor</div>
+      <h3 class="edu-degree">Award of Excellence</h3>
+      <p class="edu-inst">Federal Ministry of Education, Science and Research, Austria — recognising outstanding doctoral dissertations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact-block" id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-label"><span class="num">08</span>Contact</div>
+      <h2 class="contact-lead">Let's <em>talk</em> about your research, collaboration, or project.</h2>
+      <p class="contact-sub">
+        Open to research collaborations, industry projects, speaking engagements, and consulting in quantitative investment and decentralized finance. Based in the Zurich area.
+      </p>
+    </div>
+
+    <div class="contact-channels">
+      <a class="channel" href="mailto:marcus.wunsch@zhaw.ch">
+        <div>
+          <div class="ch-label">Email</div>
+          <div class="ch-val">marcus.wunsch@zhaw.ch</div>
+        </div>
+        <span class="ch-arrow">→</span>
+      </a>
+      <a class="channel" href="https://linkedin.com/in/dr-marcus-wunsch" target="_blank" rel="noopener">
+        <div>
+          <div class="ch-label">LinkedIn</div>
+          <div class="ch-val">/in/dr-marcus-wunsch</div>
+        </div>
+        <span class="ch-arrow">→</span>
+      </a>
+      <a class="channel" href="https://scholar.google.ch/citations?hl=de&user=9jUGIkIAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">
+        <div>
+          <div class="ch-label">Google Scholar</div>
+          <div class="ch-val">Marcus Wunsch</div>
+        </div>
+        <span class="ch-arrow">→</span>
+      </a>
+      <a class="channel" href="https://orcid.org/0000-0002-8127-9466" target="_blank" rel="noopener">
+        <div>
+          <div class="ch-label">ORCID</div>
+          <div class="ch-val">0000-0002-8127-9466</div>
+        </div>
+        <span class="ch-arrow">→</span>
+      </a>
+      <a class="channel" href="https://www.zhaw.ch/en/about-us/person/wuns" target="_blank" rel="noopener">
+        <div>
+          <div class="ch-label">ZHAW Profile</div>
+          <div class="ch-val">zhaw.ch/person/wuns</div>
+        </div>
+        <span class="ch-arrow">→</span>
+      </a>
+      <a class="channel" href="https://github.com/wuns" target="_blank" rel="noopener">
+        <div>
+          <div class="ch-label">GitHub</div>
+          <div class="ch-val">github.com/wuns</div>
+        </div>
+        <span class="ch-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> Dr. Marcus Wunsch
+  <span class="sep">·</span> Quantitative Investment &amp; Mathematical Finance
+  <span class="sep">·</span> Zurich
+</footer>
+
+<script>
+  // Sticky nav border
+  const nav = document.getElementById('topnav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Reveal-on-scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('section.block, .contact-block, .pub-item, .tl-item, .focus-card, .edu-card, .teach-card')
+    .forEach(el => { el.classList.add('reveal'); io.observe(el); });
+</script>
+
+</body>
+</html>

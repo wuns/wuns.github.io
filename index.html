@@ -79,7 +79,7 @@
     z-index: 100;
     padding: 22px var(--pad-x);
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     backdrop-filter: blur(12px);
     background: rgba(245, 241, 232, 0.78);
@@ -187,9 +187,6 @@
   }
   h1.name .first {
     display: block;
-    font-style: italic;
-    font-weight: 300;
-    color: var(--ink-soft);
   }
   h1.name .last {
     display: block;
@@ -1005,7 +1002,6 @@
 <body>
 
 <nav class="top" id="topnav">
-  <div class="monogram">M<span class="dot">.</span>W</div>
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#research">Research</a>
@@ -1023,7 +1019,7 @@
     <div class="eyebrow">Senior Lecturer · ZHAW · Zurich</div>
     <h1 class="name">
       <span class="first">Marcus</span>
-      <span class="last">Wunsch.</span>
+      <span class="last">Wunsch</span>
     </h1>
     <p class="role">Quantitative investment professional &amp; researcher in <em style="color:var(--gold)">mathematical finance</em>, portfolio optimization, and decentralized markets.</p>
     <p class="hero-summary">
@@ -1036,11 +1032,9 @@
   </div>
 
   <div class="hero-portrait">
-    <div class="portrait-coord">47.4979° N&nbsp;&nbsp;8.7378° E</div>
     <div class="portrait-frame">
       <img src="marcus.jpg" alt="Dr. Marcus Wunsch" />
     </div>
-    <div class="portrait-tag">Available for collaboration</div>
   </div>
 </section>
 
